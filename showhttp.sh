@@ -58,9 +58,6 @@ iptables -A FORWARD -o wlp2s0 -i ${VETH} -j ACCEPT
 mkdir -p /etc/netns/$NS/
 echo 'nameserver 8.8.8.8' > /etc/netns/$NS/resolv.conf
 
-# Prints the first 30000 chars of anything http related
-# Still kind of noisy though
-# tcpdump -i ${VETH} -A -s 30000 -v 'tcp and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)' -w /tmp/showhttp-output.txt &
 tcpdump -i ${VETH} -w /tmp/.showhttp &
 TCPDUMP_PID=$!
 
