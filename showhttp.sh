@@ -49,6 +49,7 @@ iptables -F FORWARD
 iptables -t nat -F
 
 # Enable masquerading of 10.200.1.0.
+# TODO: Look up or specify interface, don't hardcode wlp2s0
 iptables -t nat -A POSTROUTING -s ${VPEER_ADDR}/24 -o wlp2s0 -j MASQUERADE
 
  
