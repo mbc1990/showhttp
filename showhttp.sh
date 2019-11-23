@@ -68,10 +68,12 @@ TCPDUMP_PID=$!
 # OR
 
 # Do the command we're watching
-ip netns exec ${NS} $@ > /dev/null
+ip netns exec ${NS} $@ & > /dev/null
 
-# TODO: Garbage hack for now because ip netns exec runs as a bg task and I cant get the pid for some reason
-sleep 5
+# tail will block the script until the pid is gone
+# this can break in a bunch of different ways haha
+ip netns exec ${NS} echo $! > /tmp/.showhttp_subject_pid
+tail --pid=$(cat /tmp/.showhttp_subject_pid) -f /dev/null
 
 # Kill tcpdump
 kill $TCPDUMP_PID
